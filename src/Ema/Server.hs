@@ -339,6 +339,7 @@ wsClientShim =
             } else {
               console.log("ema: ✍ Patching DOM with:", evt);
               setHtml(document.documentElement, evt.data);
+              MathJax.typeset();
               if (routeVisible != document.location.pathname) {
                 // This is a new route switch; scroll up.
                 window.scrollTo({ top: 0});
