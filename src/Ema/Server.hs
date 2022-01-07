@@ -221,6 +221,8 @@ wsClientShim =
             const newScript = document.createElement("script");
             Array.from(oldScript.attributes)
               .forEach(attr => newScript.setAttribute(attr.name, attr.value));
+            // Add a spurious extra attribute to invalidate cache
+            newScript.setAttribute("ema:loaded", Date.now());
             newScript.appendChild(document.createTextNode(oldScript.innerHTML));
             oldScript.parentNode.replaceChild(newScript, oldScript);
           });
@@ -321,10 +323,10 @@ wsClientShim =
             console.log("ema: reconnecting ..");
             window.removeEventListener(`click`, handleRouteClicks);
             window.reloading();
-            // Reconnect after as small a time is possible, then retry again. 
+            // Reconnect after as small a time is possible, then retry again.
             // ghcid can take 1s or more to reboot. So ideally we need an
             // exponential retry logic.
-            // 
+            //
             // Note that a slow delay (200ms) may often cause websocket
             // connection error (ghcid hasn't rebooted yet), which cannot be
             // avoided as it is impossible to trap this error and handle it.
@@ -343,7 +345,7 @@ wsClientShim =
                 // This is a new route switch; scroll up.
                 window.scrollTo({ top: 0});
                 routeVisible = document.location.pathname;
-              } 
+              }
               watchCurrentRoute();
             };
           };
@@ -356,7 +358,7 @@ wsClientShim =
             watchCurrentRoute();
           };
         };
-        
+
         window.onpageshow = function () { init(false) };
         </script>
     |]
